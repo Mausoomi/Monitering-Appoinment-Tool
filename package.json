@@ -6,7 +6,7 @@
     "test": "tests"
   },
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "booking:test": "node src/booking/controlledBookingTest.js"
   },
