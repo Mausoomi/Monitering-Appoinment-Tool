@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extranjería Booking Bot - Control Panel</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-input: #ffffff;
+      --border-color: #cbd5e1;
+      
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-glow: rgba(79, 70, 229, 0.1);
+      
+      --emerald: #059669;
+      --emerald-glow: rgba(5, 150, 105, 0.1);
+      
+      --rose: #e11d48;
+      --rose-glow: rgba(225, 29, 72, 0.1);
+      
+      --amber: #d97706;
+      --amber-glow: rgba(217, 119, 6, 0.1);
+      
+      --sky: #0284c7;
+      --sky-glow: rgba(2, 132, 199, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.03) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.02) 0px, transparent 50%);
+    }
+
+    header {
+      background: #ffffff;
+      backdrop-filter: blur(8px);
+      padding: 24px 20px;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+    /* Main Dashboard Panels */
+    .dashboard-panels {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 30px;
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard-panels {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+
+    .card h2 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 28px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Forms */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .form-row > div {
+      flex: 1;
+      min-width: 0; /* Prevents overflow */
+    }
+
+    @media (max-width: 576px) {
+      .form-row {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 14px;
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+      outline: none;
+      background-color: #ffffff;
+    }
+
+    input::placeholder {
+      color: var(--text-muted);
+    }
+
+    small {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Primary Submit Button */
+    button[type="submit"] {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+      margin-top: 15px;
+    }
+
+    button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    button[type="submit"]:active {
+      transform: translateY(0);
+    }
+
+    /* Queue Section */
+    .job-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .job-item {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      position: relative;
+      border-left: 4px solid var(--border-badge-color, var(--text-muted));
+    }
+
+    .job-item:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    .job-item.status-processing-border {
+      --border-badge-color: var(--sky);
+      background: #f0f9ff;
+    }
+    .job-item.status-failed-border {
+      --border-badge-color: var(--rose);
+    }
+    .job-item.status-completed-border {
+      --border-badge-color: var(--emerald);
+    }
+    .job-item.status-pending-border {
+      --border-badge-color: var(--amber);
+    }
+
+    .job-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .action-btn {
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: inherit;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-delete { background: var(--rose); }
+    .btn-delete:hover { box-shadow: 0 2px 8px var(--rose-glow); }
+    
+    .btn-retry { background: var(--primary); }
+    .btn-retry:hover { box-shadow: 0 2px 8px var(--primary-glow); }
+    
+    .btn-edit { background: var(--amber); }
+    .btn-edit:hover { box-shadow: 0 2px 8px var(--amber-glow); }
+    
+    .btn-stop { background: var(--rose); }
+    .btn-stop:hover { box-shadow: 0 2px 8px var(--rose-glow); }
+
+    .btn-refresh {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-refresh:hover {
+      background: #f1f5f9;
+      border-color: var(--text-muted);
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .badge-pending {
+      background-color: rgba(245, 158, 11, 0.1);
+      color: var(--amber);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .badge-processing {
+      background-color: rgba(14, 165, 233, 0.1);
+      color: var(--sky);
+      border: 1px solid rgba(14, 165, 233, 0.2);
+      animation: pulse 2s infinite;
+    }
+
+    .badge-completed {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: var(--emerald);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    
+      .job-item.status-booking-border {
+        --border-badge-color: #6366f1;
+        background: #f5f3ff;
+      }
+      .badge-booking {
+        background-color: rgba(99, 102, 241, 0.1);
+        color: #6366f1;
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        animation: pulse 1.5s infinite;
+      }
+
+      .badge-failed {
+      background-color: rgba(244, 63, 94, 0.1);
+      color: var(--rose);
+      border: 1px solid rgba(244, 63, 94, 0.2);
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.6; }
+      50% { opacity: 1; }
+      100% { opacity: 0.6; }
+    }
+
+    /* Spain Cascading Area styling */
+    .cascading-panel {
+      margin-top: 15px;
+      padding: 20px;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      background-color: #f8fafc;
+    }
+
+    /* Empty state messages */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+
+    /* Toast Notification System */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .toast-card {
+      pointer-events: auto;
+      background: var(--bg-card);
+      border-left: 4px solid var(--emerald);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 16px 20px;
+      width: 350px;
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      transform: translateX(120%);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+      opacity: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .toast-card.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    .toast-icon {
+      font-size: 1.5rem;
+      color: var(--emerald);
+      flex-shrink: 0;
+    }
+
+    .toast-content {
+      flex-grow: 1;
+    }
+
+    .toast-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .toast-desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .toast-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 2px;
+      line-height: 1;
+      transition: color 0.2s ease;
+    }
+
+    .toast-close:hover {
+      color: var(--rose);
+    }
+
+  </style>
+</head>
+<body>
+  <div id="toastContainer" class="toast-container"></div>
+  <header>
+    <h1>🇪🇸 Extranjería Booking Bot - Control Panel</h1>
+  </header>
+
+  <div class="dashboard-panels">
+      <!-- Form Section -->
+      <div class="card">
+        <h2>Add New Monitor Job</h2>
+        <form id="jobForm">
+          <div class="form-group">
+            <label for="province">Provincia (Province)</label>
+            <select id="province" required>
+              <option value="">Selecciona Provincia ...</option>
+              <option value="A Coruña">A Coruña</option>
+              <option value="Albacete">Albacete</option>
+              <option value="Alicante">Alicante</option>
+              <option value="Almería">Almería</option>
+              <option value="Araba">Araba</option>
+              <option value="Asturias">Asturias</option>
+              <option value="Ávila">Ávila</option>
+              <option value="Badajoz">Badajoz</option>
+              <option value="Barcelona">Barcelona</option>
+              <option value="Bizkaia">Bizkaia</option>
+              <option value="Burgos">Burgos</option>
+              <option value="Cáceres">Cáceres</option>
+              <option value="Cádiz">Cádiz</option>
+              <option value="Cantabria">Cantabria</option>
+              <option value="Castellón">Castellón</option>
+              <option value="Ceuta">Ceuta</option>
+              <option value="Ciudad Real">Ciudad Real</option>
+              <option value="Córdoba">Córdoba</option>
+              <option value="Cuenca">Cuenca</option>
+              <option value="Gipuzkoa">Gipuzkoa</option>
+              <option value="Girona">Girona</option>
+              <option value="Granada">Granada</option>
+              <option value="Guadalajara">Guadalajara</option>
+              <option value="Huelva">Huelva</option>
+              <option value="Huesca">Huesca</option>
+              <option value="Illes Balears">Illes Balears</option>
+              <option value="Jaén">Jaén</option>
+              <option value="La Rioja">La Rioja</option>
+              <option value="Las Palmas">Las Palmas</option>
+              <option value="León">León</option>
+              <option value="Lleida">Lleida</option>
+              <option value="Lugo">Lugo</option>
+              <option value="Madrid">Madrid</option>
+              <option value="Málaga">Málaga</option>
+              <option value="Melilla">Melilla</option>
+              <option value="Murcia">Murcia</option>
+              <option value="Navarra">Navarra</option>
+              <option value="Ourense">Ourense</option>
+              <option value="Palencia">Palencia</option>
+              <option value="Pontevedra">Pontevedra</option>
+              <option value="Salamanca">Salamanca</option>
+              <option value="S.Cruz Tenerife">S.Cruz Tenerife</option>
+              <option value="Segovia">Segovia</option>
+              <option value="Sevilla">Sevilla</option>
+              <option value="Soria">Soria</option>
+              <option value="Tarragona">Tarragona</option>
+              <option value="Teruel">Teruel</option>
+              <option value="Toledo">Toledo</option>
+              <option value="Valencia">Valencia</option>
+              <option value="Valladolid">Valladolid</option>
+              <option value="Zamora">Zamora</option>
+              <option value="Zaragoza">Zaragoza</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="fallbackTramiteContainer">
+            <label for="tramite">Trámite (Service)</label>
+            <input list="tramites" id="tramite" name="tramite" placeholder="e.g., POLICIA-CARTA DE INVITACION">
+            <datalist id="tramites">
+              <option value="POLICIA-CARTA DE INVITACION">
+              <option value="POLICIA-CERTIFICADOS CONCORDANCIA">
+              <option value="POLICIA-RECOGIDA DE TARJETA DE IDENTIDAD DE EXTRANJERO (TIE)">
+              <option value="POLICIA-TITULOS DE VIAJE">
+              <option value="POLICIA-EXPEDICION/RENOVACION DE DOCUMENTOS DE SOLICITANTES DE ASILO">
+              <option value="POLICIA-ASIGNACION DE NIE">
+              <option value="POLICIA-AUTORIZACION DE REGRESO">
+              <option value="POLICIA-CERTIFICADO DE REGISTRO DE CIUDADANO DE LA U.E.">
+              <option value="POLICIA-CERTIFICADOS (DE RESIDENCIA, DE NO RESIDENCIA Y DE CONCORDANCIA)">
+              <option value="POLICIA-CERTIFICADOS Y ASIGNACION NIE (NO COMUNITARIOS)">
+              <option value="POLICIA-CEDULA DE INSCRIPCION">
+              <option value="POLICIA-PRORROGA DE ESTANCIA CON VISADO">
+              <option value="POLICIA-PRORROGA DE ESTANCIA SIN VISADO">
+              <option value="POLICIA-UCRANIA: SOLICITUD PROTECCION TEMPORAL DESPLAZADOS">
+              <option value="POLICIA TARJETA CONFLICTO UCRANIA">
+              <option value="POLICIA-DECLARACION DE ENTRADA">
+              <option value="POLICIA-TOMA DE HUELLAS (EXPEDICIÓN DE TARJETA) INICIAL, RENOVACIÓN, DUPLICADO Y LEY 14/2013">
+              <option value="POLICIA-TOMA DE HUELLAS (EXPEDICIÓN DE TARJETA)">
+            </datalist>
+            <small>(Must match exact Extranjería text or substring)</small>
+          </div>
+
+          <!-- NEW DYNAMIC CASCADING DROPDOWNS -->
+          <div id="dynamicDropdowns" class="cascading-panel" style="display:none;">
+            <div class="form-group">
+              <label for="oficina">Selecciona Oficina</label>
+              <select id="oficina" name="oficina">
+                <option value="">Cualquier oficina</option>
+              </select>
+            </div>
+
+            <div id="dynamicTramitesContainer">
+              <!-- Dynamically generated select fields will go here -->
+            </div>
+            <small style="color:var(--rose);">* Select a Tramite from ONLY ONE of the lists above.</small>
+          </div>
+
+          <div class="section-title">
+            <span>🪪</span> Documentos
+          </div>
+          
+          <div class="form-group">
+            <label for="docType">Active Document Type for Appointment</label>
+            <select id="docType" required>
+              <option value="N.I.E.">N.I.E.</option>
+              <option value="PASAPORTE">PASAPORTE</option>
+              <option value="D.N.I.">D.N.I.</option>
+            </select>
+          </div>
+          
+          <div class="form-row">
+            <div>
+              <label for="nieNumber">N.I.E. Number</label>
+              <input type="text" id="nieNumber" placeholder="e.g. Y1234567X">
+            </div>
+            <div>
+              <label for="passportNumber">Passport Number</label>
+              <input type="text" id="passportNumber" placeholder="e.g. A1234567">
+            </div>
+            <div>
+              <label for="dniNumber">D.N.I. Number</label>
+              <input type="text" id="dniNumber" placeholder="e.g. 12345678A">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="name">Nombre y apellidos (Full Name)</label>
+            <input type="text" id="name" placeholder="John Doe" required>
+            <small id="nameError" style="color:var(--rose); display:none;">El nombre y apellidos no puede contener números ni caracteres especiales.</small>
+          </div>
+
+          <!-- OPTIONAL FIELDS -->
+          <div class="section-title">
+            <span>⚙️</span> Datos Adicionales (Optional specific details)
+          </div>
+          
+          <div class="form-row">
+            <div>
+              <label for="birthYear">Año de nacimiento</label>
+              <input type="text" id="birthYear" placeholder="e.g. 1990">
+            </div>
+            <div>
+              <label for="nationality">Nacionalidad</label>
+              <input list="countries" id="nationality" placeholder="e.g. INDIA">
+              <datalist id="countries">
+                <option value="AFGANISTAN">
+                <option value="ALEMANIA">
+                <option value="ARGELIA">
+                <option value="ARGENTINA">
+                <option value="AUSTRALIA">
+                <option value="BANGLADESH">
+                <option value="BOLIVIA">
+                <option value="BRASIL">
+                <option value="BULGARIA">
+                <option value="CANADA">
+                <option value="CHILE">
+                <option value="CHINA">
+                <option value="COLOMBIA">
+                <option value="COREA DEL SUR">
+                <option value="COSTA RICA">
+                <option value="CUBA">
+                <option value="ECUADOR">
+                <option value="EGIPTO">
+                <option value="EL SALVADOR">
+                <option value="ESPAÑA">
+                <option value="ESTADOS UNIDOS DE AMERICA">
+                <option value="FILIPINAS">
+                <option value="FRANCIA">
+                <option value="GUATEMALA">
+                <option value="HONDURAS">
+                <option value="INDIA">
+                <option value="INDONESIA">
+                <option value="IRAN">
+                <option value="IRAK">
+                <option value="IRLANDA">
+                <option value="ITALIA">
+                <option value="JAPON">
+                <option value="MARRUECOS">
+                <option value="MEXICO">
+                <option value="NICARAGUA">
+                <option value="NIGERIA">
+                <option value="PAKISTAN">
+                <option value="PANAMA">
+                <option value="PARAGUAY">
+                <option value="PERU">
+                <option value="PORTUGAL">
+                <option value="REINO UNIDO">
+                <option value="REPUBLICA DOMINICANA">
+                <option value="RUMANIA">
+                <option value="RUSIA">
+                <option value="SENEGAL">
+                <option value="SIRIA">
+                <option value="SUECIA">
+                <option value="SUIZA">
+                <option value="TAILANDIA">
+                <option value="TURQUIA">
+                <option value="UCRANIA">
+                <option value="URUGUAY">
+                <option value="VENEZUELA">
+              </datalist>
+            </div>
+            <div>
+              <label for="expiryDate">Fecha de caducidad</label>
+              <input type="text" id="expiryDate" placeholder="e.g. 01/01/2030">
+            </div>
+          </div>
+
+          <!-- CONTACT FIELDS -->
+          <div class="section-title">
+            <span>📞</span> Información Contacto
+          </div>
+          
+          <div class="form-row">
+            <div>
+              <label for="phone">Teléfono</label>
+              <input type="text" id="phone" placeholder="e.g. 600000000">
+            </div>
+            <div>
+              <label for="email">Correo electrónico</label>
+              <input type="email" id="email" placeholder="e.g. test@test.com">
+            </div>
+          </div>
+
+          <!-- APPOINTMENT PREFERENCES -->
+          <div class="section-title">
+            <span>📅</span> Preferencias de Cita
+          </div>
+          
+          <div class="form-row">
+            <div>
+              <label for="preferredDate">Fecha Preferida (Preferred Date)</label>
+              <input type="date" id="preferredDate" title="If unavailable, bot will select the next available date">
+            </div>
+            <div>
+              <label for="preferredTime">Hora Preferida (Preferred Time)</label>
+              <select id="preferredTime">
+                <option value="">Cualquier hora (Any time)</option>
+                <option value="09:00">A partir de las 09:00</option>
+                <option value="09:30">A partir de las 09:30</option>
+                <option value="10:00">A partir de las 10:00</option>
+                <option value="10:30">A partir de las 10:30</option>
+                <option value="11:00">A partir de las 11:00</option>
+                <option value="11:30">A partir de las 11:30</option>
+                <option value="12:00">A partir de las 12:00</option>
+                <option value="12:30">A partir de las 12:30</option>
+                <option value="13:00">A partir de las 13:00</option>
+                <option value="13:30">A partir de las 13:30</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" id="submitBtn">Queue Automation Job</button>
+        </form>
+      </div>
+
+      <!-- Queue Section -->
+      <div class="card">
+        <h2>
+          Current Queue 
+          <button class="btn-refresh" onclick="fetchJobs()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            Refresh
+          </button>
+        </h2>
+        <ul class="job-list" id="jobList">
+          <li class="empty-state">Loading queue jobs...</li>
+        </ul>
+  </div>
+
+  <!-- Custom Confirmation Modal -->
+  <div id="confirmModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 10000; align-items: center; justify-content: center;">
+    <div style="background: white; padding: 28px; border-radius: 16px; max-width: 420px; width: 90%; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); border: 1px solid #e2e8f0; text-align: center; transform: translateY(-20px);">
+      <h3 style="margin-top: 0; margin-bottom: 12px; font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--text-primary);">Confirm Action</h3>
+      <p id="confirmMessage" style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 24px; font-weight: 500;"></p>
+      <div style="display: flex; gap: 12px; justify-content: center;">
+        <button id="confirmCancelBtn" style="padding: 10px 20px; border: 1px solid var(--border-color); background: white; color: var(--text-secondary); border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; font-family: inherit;">Cancel</button>
+        <button id="confirmOkBtn" style="padding: 10px 20px; border: none; background: var(--rose); color: white; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; font-family: inherit; box-shadow: 0 4px 12px rgba(225, 29, 72, 0.2);">Proceed</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Dynamically append cache-busting timestamp to script load
+    const script = document.createElement('script');
+    script.src = 'spain_data.js?v=' + new Date().getTime();
+    document.head.appendChild(script);
+  </script>
+  
+  <script>
+    // Initialize cascading dropdowns
+    document.getElementById('province').addEventListener('change', function() {
+      const prov = this.value;
+      const dynamicBox = document.getElementById('dynamicDropdowns');
+      const fallbackBox = document.getElementById('fallbackTramiteContainer');
+      const oficinaSel = document.getElementById('oficina');
+      const dynamicTramitesContainer = document.getElementById('dynamicTramitesContainer');
+
+      if (typeof spainData !== 'undefined' && spainData[prov]) {
+        dynamicBox.style.display = 'block';
+        fallbackBox.style.display = 'none';
+
+        const data = spainData[prov];
+        
+        // Populate Oficinas
+        oficinaSel.innerHTML = '';
+        data.oficinas.forEach(opt => {
+           oficinaSel.innerHTML += `<option value="${opt}">${opt}</option>`;
+        });
+
+        // Populate dynamic Tramite categories
+        dynamicTramitesContainer.innerHTML = '';
+        if (data.tramites) {
+          data.tramites.forEach((categoryObj, index) => {
+            let optionsHtml = '<option value="">-- Selecciona --</option>';
+            categoryObj.options.forEach(opt => {
+              optionsHtml += `<option value="${opt}">${opt}</option>`;
+            });
+
+            const html = `
+              <div class="form-group">
+                <label for="dynamicTramite_${index}">${categoryObj.category}</label>
+                <select id="dynamicTramite_${index}" class="dynamic-tramite-select">
+                  ${optionsHtml}
+                </select>
+              </div>
+            `;
+            dynamicTramitesContainer.innerHTML += html;
+          });
+        }
+      } else {
+        dynamicBox.style.display = 'none';
+        fallbackBox.style.display = 'block';
+      }
+    });
+
+    let editingJobId = null;
+    window.allJobs = [];
+
+    async function fetchJobs() {
+      try {
+        const res = await fetch('/api/jobs');
+        const jobs = await res.json();
+        window.allJobs = jobs;
+
+          // Track status changes for completions (Toast alerts)
+          const isFirstLoad = previousStatuses.size === 0;
+          jobs.forEach(job => {
+            if (!isFirstLoad) {
+              const prevStatus = previousStatuses.get(job._id);
+              if (prevStatus && prevStatus !== 'booking' && job.status === 'booking') {
+                showToastNotification(job);
+              }
+            }
+            previousStatuses.set(job._id, job.status);
+          });
+
+        const list = document.getElementById('jobList');
+        list.innerHTML = '';
+        
+        if (jobs.length === 0) {
+          list.innerHTML = '<li class="empty-state">No jobs in current queue.</li>';
+          return;
+        }
+
+        jobs.forEach(job => {
+          const li = document.createElement('li');
+          li.className = `job-item job-item-border status-${job.status}-border`;
+          
+          let retryButtonHtml = '';
+          if (job.status === 'failed' || job.status === 'completed') {
+            retryButtonHtml = `<button class="action-btn btn-retry" onclick="retryJob('${job._id}')">Retry</button>`;
+          }
+
+          let stopButtonHtml = '';
+          if (job.status === 'processing') {
+            stopButtonHtml = `<button class="action-btn btn-stop" onclick="stopJob('${job._id}')">Stop</button>`;
+          }
+
+          let docs = [];
+          if (job.nieNumber) docs.push(`NIE: ${job.nieNumber}`);
+          if (job.passportNumber) docs.push(`Passport: ${job.passportNumber}`);
+          if (job.dniNumber) docs.push(`DNI: ${job.dniNumber}`);
+
+          let editButtonHtml = `<button class="action-btn btn-edit" onclick="editJob('${job._id}')">Edit</button>`;
+
+          let failureReasonHtml = '';
+          if (job.failureReason && job.status === 'failed') {
+            failureReasonHtml = `<div style="margin-top: 8px; padding: 8px 12px; border-radius: 6px; background-color: #fee2e2; border: 1px solid #fca5a5; font-size: 0.75rem; color: #b91c1c; font-weight: 600; word-break: break-all;">⚠️ ${job.failureReason}</div>`;
+          }
+
+          li.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 15px;">
+              <div>
+                <div style="font-weight: 600; font-size: 1rem; color: var(--text-primary);">${job.name}</div>
+                <div style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 4px;">${docs.join(' | ')}</div>
+              </div>
+              <span class="badge badge-${job.status}">${job.status}</span>
+            </div>
+            
+            <div style="margin: 12px 0 6px 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
+              <span style="color:var(--text-muted);">📍 Province:</span> ${job.province} <br>
+              ${job.oficina ? `<span style="color:var(--text-muted);">🏢 Office:</span> ${job.oficina} <br>` : ''}
+              <span style="color:var(--text-muted);">📝 Service:</span> ${job.tramite}
+            </div>
+            
+            ${failureReasonHtml}
+            
+            <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 8px;">Created: ${new Date(job.createdAt).toLocaleString()}</div>
+            
+            <div class="job-actions">
+              ${retryButtonHtml}
+              ${stopButtonHtml}
+              ${editButtonHtml}
+              <button class="action-btn btn-delete" onclick="deleteJob('${job._id}')">Delete</button>
+            </div>
+          `;
+          list.appendChild(li);
+        });
+      } catch (err) {
+        console.error("Error fetching jobs", err);
+      }
+    }
+
+    document.getElementById('jobForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const btn = document.getElementById('submitBtn');
+      btn.innerText = editingJobId ? "Updating..." : "Queueing...";
+      btn.disabled = true;
+
+      const nieNumber = document.getElementById('nieNumber').value;
+      const passportNumber = document.getElementById('passportNumber').value;
+      const dniNumber = document.getElementById('dniNumber').value;
+
+      if (!nieNumber && !passportNumber && !dniNumber) {
+        alert("Please provide at least one Document Number (NIE, Passport, or DNI)");
+        btn.innerText = "Queue Automation Job";
+        btn.disabled = false;
+        return;
+      }
+
+      // Name Validation: No numbers or special characters
+      const nameInput = document.getElementById('name');
+      const nameError = document.getElementById('nameError');
+      const nameVal = nameInput.value;
+      if (/[0-9]/.test(nameVal) || /[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/.test(nameVal)) {
+        nameError.style.display = 'block';
+        nameInput.style.borderColor = 'var(--rose)';
+        btn.innerText = "Queue Automation Job";
+        btn.disabled = false;
+        return;
+      } else {
+        nameError.style.display = 'none';
+        nameInput.style.borderColor = 'var(--border-color)';
+      }
+
+      // Determine the final tramite value based on what is visible
+      let finalTramite = "";
+      let finalOficina = "";
+      
+      if (document.getElementById('dynamicDropdowns').style.display === 'block') {
+         finalOficina = document.getElementById('oficina').value;
+         
+         const selects = document.querySelectorAll('.dynamic-tramite-select');
+         for(let i=0; i<selects.length; i++) {
+            if (selects[i].value) {
+               finalTramite = selects[i].value;
+               break;
+            }
+         }
+      } else {
+         finalTramite = document.getElementById('tramite').value;
+      }
+
+      if (!finalTramite) {
+         alert("Please select a valid Tramite.");
+         btn.innerText = "Queue Automation Job";
+         btn.disabled = false;
+         return;
+      }
+
+      const jobData = {
+        province: document.getElementById('province').value,
+        tramite: finalTramite,
+        oficina: finalOficina,
+        docType: document.getElementById('docType').value,
+        nieNumber,
+        passportNumber,
+        dniNumber,
+        name: document.getElementById('name').value,
+        birthYear: document.getElementById('birthYear').value,
+        nationality: document.getElementById('nationality').value,
+        expiryDate: document.getElementById('expiryDate').value,
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value,
+        preferredDate: document.getElementById('preferredDate').value,
+        preferredTime: document.getElementById('preferredTime').value
+      };
+
+      try {
+        const url = editingJobId ? `/api/jobs/${editingJobId}` : '/api/jobs';
+        const method = editingJobId ? 'PUT' : 'POST';
+
+        const res = await fetch(url, {
+          method: method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(jobData)
+        });
+
+        if (res.ok) {
+          document.getElementById('jobForm').reset();
+          document.getElementById('submitBtn').style.background = "";
+          editingJobId = null;
+          fetchJobs();
+        } else {
+          alert("Failed to save job.");
+        }
+      } catch (err) {
+        alert("Server error.");
+      } finally {
+        btn.innerText = "Queue Automation Job";
+        btn.disabled = false;
+      }
+    });
+
+    let confirmCallback = null;
+    function showConfirmModal(message, okColor, callback) {
+      document.getElementById('confirmMessage').innerText = message;
+      const okBtn = document.getElementById('confirmOkBtn');
+      okBtn.style.background = okColor;
+      okBtn.style.boxShadow = `0 4px 12px ${okColor}33`;
+      confirmCallback = callback;
+      document.getElementById('confirmModal').style.display = 'flex';
+    }
+
+    document.getElementById('confirmCancelBtn').addEventListener('click', () => {
+      document.getElementById('confirmModal').style.display = 'none';
+      confirmCallback = null;
+    });
+
+    document.getElementById('confirmOkBtn').addEventListener('click', () => {
+      document.getElementById('confirmModal').style.display = 'none';
+      if (confirmCallback) {
+        confirmCallback();
+      }
+      confirmCallback = null;
+    });
+
+    async function deleteJob(id) {
+      showConfirmModal('Are you sure you want to delete this job?', 'var(--rose)', async () => {
+        await fetch('/api/jobs/' + id, { method: 'DELETE' });
+        fetchJobs();
+      });
+    }
+
+    function editJob(id) {
+      const job = window.allJobs.find(j => j._id === id);
+      if (!job) return;
+      
+      editingJobId = id;
+      document.getElementById('province').value = job.province;
+      
+      // Trigger change event to populate tramites
+      document.getElementById('province').dispatchEvent(new Event('change'));
+      
+      // Give DOM time to update tramites dropdowns
+      setTimeout(() => {
+        if (document.getElementById('oficina')) {
+           document.getElementById('oficina').value = job.oficina || '';
+        }
+
+        if (document.getElementById('fallbackTramite')) {
+           document.getElementById('fallbackTramite').value = job.tramite;
+        }
+
+        // Populate dynamic tramites if they exist
+        const dynamicSelects = document.querySelectorAll('.dynamic-tramite-select');
+        dynamicSelects.forEach(select => {
+           // Check if the select has an option that matches the job's tramite
+           const hasOption = Array.from(select.options).some(opt => opt.value === job.tramite);
+           if (hasOption) {
+              select.value = job.tramite;
+           } else {
+              select.value = ""; // Show "-- Selecciona --"
+           }
+        });
+        
+        document.getElementById('docType').value = job.docType || 'N.I.E.';
+        document.getElementById('nieNumber').value = job.nieNumber || '';
+        document.getElementById('passportNumber').value = job.passportNumber || '';
+        document.getElementById('dniNumber').value = job.dniNumber || '';
+        document.getElementById('name').value = job.name || '';
+        document.getElementById('birthYear').value = job.birthYear || '';
+        document.getElementById('nationality').value = job.nationality || '';
+        document.getElementById('expiryDate').value = job.expiryDate || '';
+        document.getElementById('phone').value = job.phone || '';
+        document.getElementById('email').value = job.email || '';
+        document.getElementById('preferredDate').value = job.preferredDate || '';
+        document.getElementById('preferredTime').value = job.preferredTime || '';
+        
+        document.getElementById('submitBtn').innerText = "Update Automation Job";
+        document.getElementById('submitBtn').style.background = "linear-gradient(135deg, var(--amber) 0%, var(--amber-glow) 100%)";
+        
+        // Scroll to form
+        document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+
+    async function retryJob(id) {
+      showConfirmModal('Are you sure you want to retry this job? It will be added to the pending queue.', 'var(--primary)', async () => {
+        try {
+          const res = await fetch('/api/jobs/' + id + '/retry', { method: 'PUT' });
+          if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            alert('Failed to retry job: ' + (errData.error || res.statusText));
+          }
+          fetchJobs();
+        } catch (err) {
+          alert('Network/API Error retrying job: ' + err.message);
+        }
+      });
+    }
+
+    async function stopJob(id) {
+      showConfirmModal('Are you sure you want to stop this running job?', 'var(--rose)', async () => {
+        try {
+          const res = await fetch('/api/jobs/' + id + '/stop', { method: 'PUT' });
+          if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            alert('Failed to stop job: ' + (errData.error || res.statusText));
+          }
+          fetchJobs();
+        } catch (err) {
+          alert('Network/API Error stopping job: ' + err.message);
+        }
+      });
+    }
+
+
+    const previousStatuses = new Map();
+
+    function playSuccessChime() {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        
+        // Tone 1 (E5)
+        const osc1 = ctx.createOscillator();
+        const gain1 = ctx.createGain();
+        osc1.connect(gain1);
+        gain1.connect(ctx.destination);
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(659.25, ctx.currentTime);
+        gain1.gain.setValueAtTime(0.15, ctx.currentTime);
+        gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+        osc1.start(ctx.currentTime);
+        osc1.stop(ctx.currentTime + 0.3);
+        
+        // Tone 2 (A5)
+        setTimeout(() => {
+          const osc2 = ctx.createOscillator();
+          const gain2 = ctx.createGain();
+          osc2.connect(gain2);
+          gain2.connect(ctx.destination);
+          osc2.type = 'sine';
+          osc2.frequency.setValueAtTime(880.00, ctx.currentTime);
+          gain2.gain.setValueAtTime(0.2, ctx.currentTime);
+          gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+          osc2.start(ctx.currentTime);
+          osc2.stop(ctx.currentTime + 0.5);
+        }, 120);
+      } catch (e) {
+        console.error("Audio chime failed to play:", e);
+      }
+    }
+
+    function showToastNotification(job) {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = 'toast-card';
+      
+      toast.innerHTML = `
+        <div class="toast-icon" style="color: var(--emerald); display: flex; align-items: center; justify-content: center; margin-top: 2px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <div class="toast-content">
+          <div class="toast-title">Appointment Found! Booking Started... ⚡</div>
+          <div class="toast-desc">
+            <strong>Name:</strong> ${job.name}<br>
+            <strong>Province:</strong> ${job.province}<br>
+            ${job.oficina ? `<strong>Office:</strong> ${job.oficina}` : ''}
+          </div>
+        </div>
+        <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
+      `;
+
+      container.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('show');
+      }, 50);
+
+      playSuccessChime();
+
+      // Auto dismiss after 10 seconds
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+          toast.remove();
+        }, 400);
+      }, 10000);
+    }
+
+    // Initial load and set interval
+    fetchJobs();
+    setInterval(fetchJobs, 5000);
+  </script>
+</body>
+</html>
