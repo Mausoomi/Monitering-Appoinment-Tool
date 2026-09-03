@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+      const API_BASE = window.location.hostname.includes('netlify.app') 
+        ? 'https://monitoring-appoinment-tool.onrender.com' 
+        : '';
+    </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Extranjería Booking Bot - Control Panel</title>
@@ -815,7 +821,7 @@
 
     async function fetchJobs() {
       try {
-        const res = await fetch('/api/jobs');
+        const res = await fetch(API_BASE + '/api/jobs');
         const jobs = await res.json();
         window.allJobs = jobs;
 
@@ -978,7 +984,7 @@
         const url = editingJobId ? `/api/jobs/${editingJobId}` : '/api/jobs';
         const method = editingJobId ? 'PUT' : 'POST';
 
-        const res = await fetch(url, {
+        const res = await fetch((url.startsWith('/api') ? API_BASE : '') + url, {
           method: method,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(jobData)
@@ -1025,7 +1031,7 @@
 
     async function deleteJob(id) {
       showConfirmModal('Are you sure you want to delete this job?', 'var(--rose)', async () => {
-        await fetch('/api/jobs/' + id, { method: 'DELETE' });
+        await fetch(API_BASE + '/api/jobs/' + id, { method: 'DELETE' });
         fetchJobs();
       });
     }
@@ -1086,7 +1092,7 @@
     async function retryJob(id) {
       showConfirmModal('Are you sure you want to retry this job? It will be added to the pending queue.', 'var(--primary)', async () => {
         try {
-          const res = await fetch('/api/jobs/' + id + '/retry', { method: 'PUT' });
+          const res = await fetch(API_BASE + '/api/jobs/' + id + '/retry', { method: 'PUT' });
           if (!res.ok) {
             const errData = await res.json().catch(() => ({}));
             alert('Failed to retry job: ' + (errData.error || res.statusText));
@@ -1101,7 +1107,7 @@
     async function stopJob(id) {
       showConfirmModal('Are you sure you want to stop this running job?', 'var(--rose)', async () => {
         try {
-          const res = await fetch('/api/jobs/' + id + '/stop', { method: 'PUT' });
+          const res = await fetch(API_BASE + '/api/jobs/' + id + '/stop', { method: 'PUT' });
           if (!res.ok) {
             const errData = await res.json().catch(() => ({}));
             alert('Failed to stop job: ' + (errData.error || res.statusText));

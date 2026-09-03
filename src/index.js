@@ -50,7 +50,7 @@ process.on("uncaughtException", (err) => {
   }
 
   const PORT = process.env.PORT || 3000;
-  const serverInstance = app.listen(PORT, () => {
+  const serverInstance = app.listen(PORT, "0.0.0.0", () => {
     logger.info(`✅ Web Dashboard running at http://localhost:${PORT}`);
   });
   serverInstance.on("error", (err) => {
