@@ -18,6 +18,16 @@ app.use(express.static(path.join(__dirname, "../../public")));
 // API Endpoints
 
 // Get all jobs (for dashboard/monitoring)
+
+// Health and root status check
+app.get("/health", (req, res) => {
+  res.json({ status: "healthy", timestamp: new Date() });
+});
+
+app.get("/", (req, res) => {
+  res.json({ status: "online", message: "Extranjeria Booking Bot API is running" });
+});
+
 app.get("/api/jobs", async (req, res) => {
   try {
     const jobs = await Job.find().sort({ createdAt: -1 });
